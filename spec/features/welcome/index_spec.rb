@@ -949,15 +949,26 @@ describe 'Welcome page', js: true do
         end
       end
 
-      it 'figures column' do
-        dances
-        visit '/'
-        expect(page).to_not have_content('whole dance')
-        click_button 'Figures'
-        expect(page).to have_content('whole dance', count: 3)
-        select('circle')
-        expect(page).to have_css('tr', text: /The Rendevouz.*circle left 4 places\ncircle left 3 places/)
-        expect(page).to have_css('tr', text: /Call Me.*circle left 3 places/)
+      describe 'figures column' do
+        it 'works' do
+          dances
+          visit '/'
+          expect(page).to_not have_content('whole dance')
+          click_button 'Figures'
+          expect(page).to have_content('whole dance', count: 3)
+          select('circle')
+          expect(page).to have_css('tr', text: /The Rendevouz.*circle left 4 places\ncircle left 3 places/)
+          expect(page).to have_css('tr', text: /Call Me.*circle left 3 places/)
+        end
+
+        it 'displays wrapped matches in matching order' do
+          dance
+          visit '/'
+          click_button 'Figures'
+          select('then')
+          select('chain', match: :first)
+          expect(page).to have_css('tr', text: /Box the Gnat Contra.*ladles chain ⁋\nneighbors balance & box the gnat/)
+        end
       end
     end
   end
