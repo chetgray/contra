@@ -73,13 +73,13 @@ class SearchMatch
 
   def self.flatten_set_to_index_a(search_matches_or_nil)
     return [] if search_matches_or_nil.nil?
-    indexes = Set[]
+    indexes = []
     search_matches_or_nil.each do |search_match|
       search_match.each do |i|
         indexes << i
       end
     end
-    indexes.to_a.sort
+    indexes.uniq
   end
 
   protected

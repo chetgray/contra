@@ -95,7 +95,10 @@ describe SearchMatch do
       sms = Set[SearchMatch.new(2, nfigures),
                 SearchMatch.new(4, nfigures),
                 SearchMatch.new(6, nfigures, count: 4)]
-      expect(SearchMatch.flatten_set_to_index_a(sms)).to eq([0,1,2,4,6,7])
+      # Set uses Hash as storage.
+      # Hashes enumerate their values in the order that the corresponding keys were inserted.
+      # The latter is in the language specification. The former may be an implementation detail (woof).
+      expect(SearchMatch.flatten_set_to_index_a(sms)).to eq([2,4,6,7,0,1])
     end
 
     it '(nil)' do
